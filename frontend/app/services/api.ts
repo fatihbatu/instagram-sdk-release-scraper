@@ -3,8 +3,9 @@ import { Variant, Version } from '../types';
 
 export const updateVersion = async (url: string, { arg }: { arg: Version }) => {
   const { _id, ...rest } = arg;
-  await axiosInstance.put(`${url}/${arg._id}`, {
-    rest,
+  console.log(arg);
+  await axiosInstance.patch(`${url}/${arg._id}`, {
+    ...rest,
   });
 };
 
