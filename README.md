@@ -104,40 +104,43 @@ version: '3.5'
 
 services:
   db:
-    image: postgres
+    image: mongo:6.0
+    container_name: mongodb
     restart: always
-    environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    container_name: postgres
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data
     ports:
-      - '5432:5432'
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin # DATABASE_USER
+      MONGO_INITDB_ROOT_PASSWORD: admin # DATABASE_PASS
+    volumes:
+      - ./mongo-config:/data/configdb
+      - ./mongo-data:/data/db
 
   backend:
     build:
       context: ./backend
       dockerfile: dev.Dockerfile
-    container_name: backend
-    env_file:
-      - .env
+    container_name: api
+    environment:
+      DATABASE_NAME: scrape # DATABASE_NAME
+      DATABASE_USER: admin # DATABASE_USER
+      DATABASE_PASS: admin # DATABASE_PASS
+      DATABASE_URI: mongodb://db:27017 # DATABASE_URI, example: mongodb://database:27017
     ports:
       - '3000:3000'
     depends_on:
       - db
     volumes:
-      - ./backend/src:/usr/src/app/src
-      - ./backend/prisma:/usr/src/app/prisma
+      - ./backend/src:/app/src
 
   frontend:
-    container_name: frontend
+    container_name: react
     build:
       context: ./frontend
       dockerfile: dev.Dockerfile
-    env_file:
-      - .env
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+      API_URL: http://backend:3000
     volumes:
       - ./frontend/app:/app/app
       - ./frontend/public:/app/public
@@ -147,18 +150,6 @@ services:
       - 3001:3000
     depends_on:
       - backend
-
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    container_name: nest-pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
-    ports:
-      - '5050:80'
-    depends_on:
-      - db
 ```
 
 **Explanation:**
