@@ -16,7 +16,11 @@ export class Variant {
   @Prop({ required: true })
   dpi: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Version' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Version',
+    required: true,
+  })
   version: Version;
 }
 
