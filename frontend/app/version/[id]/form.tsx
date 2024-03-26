@@ -5,11 +5,9 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Version } from '@/app/types';
@@ -17,7 +15,7 @@ import { Version } from '@/app/types';
 const formSchema = z.object({
   versionId: z.string().nonempty(),
   releaseDate: z.string().nonempty(),
-  variantCount: z.number().int(),
+  variantCount: z.number().int().positive(),
 });
 
 const FormCard = ({
@@ -38,8 +36,7 @@ const FormCard = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    updateVersion(values);
-    console.log(values);
+    updateVersion({ ...data, ...values });
   }
 
   return (
@@ -76,7 +73,12 @@ const FormCard = ({
             <FormItem>
               <FormLabel>Variant Count</FormLabel>
               <FormControl>
-                <Input defaultValue={field.value} {...field} />
+                <Input
+                  type="number"
+                  min={100}
+                  {...field}
+                  onChange={(event) => field.onChange(+event.target.value)}
+                />
               </FormControl>
             </FormItem>
           )}

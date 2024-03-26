@@ -1,23 +1,16 @@
 'use client';
 import { useState } from 'react';
 import { DataTable } from '../../(data-table)/data-table';
-import { useVariants, useVersions } from '../../services/queries';
+import { useVariants } from '../../services/queries';
 import { useParams } from 'next/navigation';
 import { variantColumns } from '@/app/(data-table)/variant-columns';
 import SpinLoader from '@/app/components/SpinLoader';
-import { Button } from 'antd';
 import { useRouter } from 'next/navigation';
 import { Version } from '@/app/types';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import FormCard from './form';
 import { useUpdateVersion } from '@/app/services/mutations';
+import { Button } from '@/components/ui/button';
 
 type StateType = {
   visible: boolean;
@@ -35,9 +28,11 @@ export default function Home() {
     version: null,
   });
 
-  const updateVersion = async (values: {}) => {
+  type UpdateVersionValues = Partial<Version>;
+
+  const updateVersion = async (values: UpdateVersionValues) => {
     try {
-      await trigger({ _id: modal.version._id, ...values });
+      await trigger(values as Version);
       mutate();
     } catch (error) {
       console.error(error);
@@ -73,11 +68,7 @@ export default function Home() {
             {modal.version ? (
               <FormCard data={modal.version} updateVersion={updateVersion} />
             ) : null}
-            {/* <p>Card Content</p> */}
           </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
         </Card>
       </div>
       <div
