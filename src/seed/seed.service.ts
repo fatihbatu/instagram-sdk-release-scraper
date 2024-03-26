@@ -31,7 +31,7 @@ export class SeedService {
       for (const variant of variants) {
         const newVariant = new this.variantModel({
           ...variant,
-          versionId: newVersion._id,
+          version: newVersion._id,
         });
         await newVariant.save();
       }
