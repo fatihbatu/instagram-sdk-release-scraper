@@ -28,32 +28,6 @@ export function useDeleteVersion() {
   });
 }
 
-// export function useUpdateVariant() {
-//   const { mutate: variantMutate } = useVariants();
-
-//   return useSWRMutation(`/variants`, updateVariant, {
-//     onError() {
-//       console.error('error');
-//     },
-//     onSuccess: () => {
-//       variantMutate();
-//     },
-//   });
-// }
-
-// export function useDeleteVariant() {
-//   const { mutate: variantnMutates } = useVariants();
-
-//   return useSWRMutation(`/versions`, deleteVariant, {
-//     onError() {
-//       console.error('error');
-//     },
-//     onSuccess: () => {
-//       variantnMutates();
-//     },
-//   });
-// }
-
 export function useSeed() {
   const { mutate: versionMutates } = useVersions();
 
