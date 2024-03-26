@@ -1,26 +1,38 @@
-import { Injectable } from '@nestjs/common';
-import { CreateVersionDto } from './dto/create-version.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateVersionDto } from './dto/update-version.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Version } from 'src/schemas/Version.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class VersionsService {
-  create(createVersionDto: CreateVersionDto) {
-    return 'This action adds a new version';
-  }
+  constructor(
+    @InjectModel(Version.name) private versionModel: Model<Version>,
+  ) {}
 
   findAll() {
-    return `This action returns all versions`;
+    const versions = this.versionModel.find().exec();
+    if (!versions) throw new NotFoundException('No versions found');
+    return versions;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} version`;
+    const version = this.versionModel.findById(id).exec();
+    if (!version) throw new NotFoundException(`Version #${id} not found`);
+    return version;
   }
 
   update(id: number, updateVersionDto: UpdateVersionDto) {
-    return `This action updates a #${id} version`;
+    const version = this.versionModel
+      .findByIdAndUpdate(id, updateVersionDto, { new: true })
+      .exec();
+    if (!version) throw new NotFoundException(`Version #${id} not found`);
+    return version;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} version`;
+    const version = this.versionModel.findByIdAndDelete(id).exec();
+    if (!version) throw new NotFoundException(`Version #${id} not found`);
+    return version;
   }
 }
