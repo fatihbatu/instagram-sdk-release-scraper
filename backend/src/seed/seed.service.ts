@@ -5,7 +5,6 @@ import { Model } from 'mongoose';
 import { Variant } from 'src/schemas/Variant.schema';
 import * as cheerio from 'cheerio';
 import { HttpService } from '@nestjs/axios';
-import { AxiosResponse } from 'axios';
 
 @Injectable()
 export class SeedService {
@@ -40,7 +39,7 @@ export class SeedService {
     return releaseNames;
   }
 
-  async getHTML(url: string): Promise<AxiosResponse<any>> {
+  async getHTML(url: string): Promise<any> {
     try {
       const response = await this.httpService.get(url).toPromise();
       return response;
