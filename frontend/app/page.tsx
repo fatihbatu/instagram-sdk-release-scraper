@@ -42,7 +42,7 @@ export default function Home() {
       id="content"
       className="wrapper flex flex-col items-start justify-center p-20 gap-16"
     >
-      {data ? (
+      {data && data.length ? (
         <>
           <h1 className="text-2xl font-bold">Versions</h1>
           <DataTable columns={columns} data={data} />
@@ -53,7 +53,6 @@ export default function Home() {
         <SpinLoader />
       ) : (
         <div>
-          <p>No data</p>
           <Button onClick={startSeed}>Seed</Button>
         </div>
       )}
