@@ -1,0 +1,13 @@
+# Exclude specific files and directories
+secret.txt
+logs/
+node_modules/
+dist/
+
+# Exclude all files with a specific extension
+*.log
+.gitignore
+.prettierrc
+README.md
+.git
+/mongo-*
