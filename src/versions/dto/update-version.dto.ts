@@ -1,4 +1,15 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateVersionDto } from './create-version.dto';
+import { IsNumber, IsString } from 'class-validator';
 
-export class UpdateVersionDto extends PartialType(CreateVersionDto) {}
+export class UpdateVersionDto {
+  @IsString()
+  versionId?: string;
+
+  @IsString()
+  href?: string;
+
+  @IsString()
+  releaseDate?: string;
+
+  @IsNumber()
+  variantCount?: number;
+}
