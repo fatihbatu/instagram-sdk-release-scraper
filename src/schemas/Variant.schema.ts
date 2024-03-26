@@ -4,7 +4,7 @@ import { Version } from './Version.schema';
 
 @Schema()
 export class Variant {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   variantId: string;
 
   @Prop({ required: true })

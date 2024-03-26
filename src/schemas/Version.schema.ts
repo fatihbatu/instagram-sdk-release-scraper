@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @Schema()
 export class Version {
   @Prop({ required: true, unique: true })
-  verisonId: string;
+  versionId: string;
 
   @Prop({ required: true })
   href: string;
