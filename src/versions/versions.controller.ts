@@ -13,16 +13,16 @@ export class VersionsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.versionsService.findOne(+id);
+    return this.versionsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateVersionDto: UpdateVersionDto) {
-    return this.versionsService.update(+id, updateVersionDto);
+    return this.versionsService.update(id, updateVersionDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.versionsService.remove(+id);
+    return this.versionsService.remove(id);
   }
 }
