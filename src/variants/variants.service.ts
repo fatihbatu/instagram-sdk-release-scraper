@@ -10,28 +10,28 @@ export class VariantsService {
     @InjectModel(Variant.name) private variantModel: Model<Variant>,
   ) {}
 
-  findAll() {
-    const variants = this.variantModel.find().exec();
+  async findAll() {
+    const variants = await this.variantModel.find().exec();
     if (!variants) throw new NotFoundException('No variants found');
     return variants;
   }
 
-  findOne(id: string) {
-    const variant = this.variantModel.findById(id).exec();
+  async findOne(id: string) {
+    const variant = await this.variantModel.findById(id).exec();
     if (!variant) throw new NotFoundException(`Variant #${id} not found`);
     return variant;
   }
 
-  update(id: string, updateVariantDto: UpdateVariantDto) {
-    const variant = this.variantModel
+  async update(id: string, updateVariantDto: UpdateVariantDto) {
+    const variant = await this.variantModel
       .findByIdAndUpdate(id, updateVariantDto, { new: true })
       .exec();
     if (!variant) throw new NotFoundException(`Variant #${id} not found`);
     return variant;
   }
 
-  remove(id: string) {
-    const variant = this.variantModel.findByIdAndDelete(id).exec();
+  async remove(id: string) {
+    const variant = await this.variantModel.findByIdAndDelete(id).exec();
     if (!variant) throw new NotFoundException(`Variant #${id} not found`);
     return variant;
   }
