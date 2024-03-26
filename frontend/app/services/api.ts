@@ -24,5 +24,9 @@ export const deleteVariant = async (url: string, { arg }: { arg: Variant }) => {
 };
 
 export const seed = async (url: string) => {
-  await axiosInstance.post(url);
+  try {
+    await axiosInstance.post(url);
+  } catch (error) {
+    return error;
+  }
 };

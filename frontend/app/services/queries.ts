@@ -1,9 +1,9 @@
 import useSWR from 'swr';
-import { Version, Variant } from '@/app/types';
+import { Version } from '@/app/types';
 
 export function useVersions() {
   return useSWR<Version[]>('/versions');
 }
-export function useVariants() {
-  return useSWR<Variant[]>('/variants');
+export function useVariants(id: string) {
+  return useSWR<Version>('/versions/' + id);
 }
