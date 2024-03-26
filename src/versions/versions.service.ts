@@ -10,19 +10,19 @@ export class VersionsService {
     @InjectModel(Version.name) private versionModel: Model<Version>,
   ) {}
 
-  findAll() {
+  findAll(): Promise<Version[]> {
     const versions = this.versionModel.find().exec();
     if (!versions) throw new NotFoundException('No versions found');
     return versions;
   }
 
-  findOne(id: number) {
+  findOne(id: string): Promise<Version> {
     const version = this.versionModel.findById(id).exec();
     if (!version) throw new NotFoundException(`Version #${id} not found`);
     return version;
   }
 
-  update(id: number, updateVersionDto: UpdateVersionDto) {
+  update(id: string, updateVersionDto: UpdateVersionDto) {
     const version = this.versionModel
       .findByIdAndUpdate(id, updateVersionDto, { new: true })
       .exec();
@@ -30,7 +30,7 @@ export class VersionsService {
     return version;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     const version = this.versionModel.findByIdAndDelete(id).exec();
     if (!version) throw new NotFoundException(`Version #${id} not found`);
     return version;
